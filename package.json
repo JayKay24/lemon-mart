@@ -8,9 +8,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "test:debug": "ng test --sourcemaps=false",
+    "test:debug": "ng test --source-map=false",
     "standardize": "prettier '**/*.ts' --write",
-    "predocker:build": "npm run build",
+    "predocker:build": "npm run build -- --prod --output-path dist && npm test -- --watch=false && npm run e2e",
     "docker:build": "cross-conf-env docker image build . -t $npm_package_config_imageRepo:$npm_package_version",
     "postdocker:build": "npm run docker:tag",
     "docker:tag": " cross-conf-env docker image tag $npm_package_config_imageRepo:$npm_package_version $npm_package_config_imageRepo:latest",
@@ -31,15 +31,20 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^6.1.0",
+    "@angular/cdk": "^6.2.0",
     "@angular/common": "^6.1.0",
     "@angular/compiler": "^6.1.0",
     "@angular/core": "^6.1.0",
+    "@angular/flex-layout": "^6.0.0-beta.17",
     "@angular/forms": "^6.1.0",
     "@angular/http": "^6.1.0",
+    "@angular/material": "^6.4.7",
     "@angular/platform-browser": "^6.1.0",
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
     "core-js": "^2.5.4",
+    "cross-env": "^5.2.0",
+    "hammerjs": "^2.0.8",
     "rxjs": "~6.2.0",
     "zone.js": "~0.8.26"
   },
@@ -72,5 +77,10 @@
     "singleQuote": true,
     "trailingComma": "es5",
     "parser": "typescript"
+  },
+  "config": {
+    "imageRepo": "jaykay24/lemon-mart",
+    "imagePort": "8080",
+    "imageName": "lemon-mart"
   }
 }
