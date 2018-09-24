@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build:prod": "ng build --prod",
-    "build:ci": "docker build -f Dockerfile.integration . -t $npm_package_config_imageRepo:latest",
+    "build:ci": "docker build -f Dockerfile.integration . --no-cache -t $npm_package_config_imageRepo:latest",
     "test:prod": "npm test -- --watch=false",
     "test:debug": "ng test --source-map=false",
     "standardize": "prettier '**/*.ts' --write",
