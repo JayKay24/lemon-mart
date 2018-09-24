@@ -5,7 +5,7 @@ jobs:
   working-directory: /usr/src
   steps:
     - checkout
-    -setup_remote_docker:
+    - setup_remote_docker:
       docker_layer_caching: false
     - run:
         name: Build Docker Image
