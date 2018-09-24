@@ -1,6 +1,6 @@
 {
   "name": "lemon-mart",
-  "version": "1.0.0",
+  "version": "6.0.0",
   "scripts": {
     "ng": "ng",
     "start": "npm run standardize && ng serve --port 5000",
@@ -10,7 +10,7 @@
     "e2e": "ng e2e",
     "build:prod": "ng build --prod",
     "build:ci": "docker build -f Dockerfile.integration . --no-cache -t $npm_package_config_imageRepo:latest",
-    "test:prod": "npm test -- --watch=false",
+    "test:prod": "ng test --browsers ChromiumNoSandbox --watch=false",
     "test:debug": "ng test --source-map=false",
     "standardize": "prettier '**/*.ts' --write",
     "predocker:build": "npm run build -- --prod --output-path dist && npm test -- --watch=false && npm run e2e",
