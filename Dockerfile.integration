@@ -26,6 +26,8 @@ WORKDIR $SRC_DIR
 COPY --from=builder $BUILDER_SRC_DIR $SRC_DIR
 
 RUN npm run $TEST_SCRIPT
+CMD 'ng test --browsers ChromiumNoSandbox --watch=false --code-coverage'
+CMD 'cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js'
 
 FROM duluca/minimal-nginx-web-server:1.13.8-alpine
 ENV BUILDER_SRC_DIR /usr/src
