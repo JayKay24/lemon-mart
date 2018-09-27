@@ -1,6 +1,8 @@
 version: 2
 jobs:
   build:
+    environment:
+      CC_TEST_REPORTER_ID: 009685b171009a0767c3f36cd754560788616e5c0026148a0b4798ab1c01afc5
     docker:
       - image: docker:17.12.0-ce-git
     working_directory: /usr/src
@@ -11,4 +13,4 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            npm run build:ci
+            docker build -f Dockerfile.integration . --no-cache
