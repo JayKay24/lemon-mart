@@ -3,9 +3,11 @@ import { Component, OnInit } from '@angular/core'
 @Component({
   selector: 'app-home',
   template: `
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <span class="mat-display-2">Hello, Lemonite!</span>
-      <button mat-raised-button color="primary" routerLink="/manager">Login as Manager</button>
+    <div *ngIf="displayLogin">
+      <app-login></app-login>
+    </div>
+    <div *ngIf="!displayLogin">
+      <span class="mat-display-3">You get a lemon, you get a lemon, everybody gets lemons...</span>
     </div>
   `,
   styles: [
@@ -17,6 +19,7 @@ import { Component, OnInit } from '@angular/core'
   ],
 })
 export class HomeComponent implements OnInit {
+  displayLogin = true
   constructor() {}
 
   ngOnInit() {}
