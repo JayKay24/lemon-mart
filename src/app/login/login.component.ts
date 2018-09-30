@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormGroup } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { AuthService } from '../auth/auth.service'
+import { UiService } from '../common/ui.service'
+import { EmailValidation, PasswordValidation } from '../common/validation'
 
 @Component({
   selector: 'app-login',
@@ -27,7 +29,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private uiService: UiService
   ) {
     route.paramMap.subscribe(params => (this.redirectUrl = params.get('redirectUrl')))
   }
@@ -38,8 +41,8 @@ export class LoginComponent implements OnInit {
 
   buildLoginForm() {
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.minLength(8), Validators.maxLength(50)]],
+      email: ['', EmailValidation],
+      password: ['', PasswordValidation],
     })
   }
 
@@ -49,6 +52,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         authStatus => {
           if (authStatus.isAuthenticated) {
+            this.uiService.showToast(`Welcome! Role ${authStatus.userRole}`)
             this.router.navigate([this.redirectUrl || '/manager'])
           }
         },

@@ -34,7 +34,7 @@ export class AuthService {
     email: string,
     password: string
   ): Observable<IServerAuthResponse> {
-    if (!email.toLocaleLowerCase().endsWith('@test.com')) {
+    if (!email.toLowerCase().endsWith('@test.com')) {
       return observableThrowError('Failed to log in! Email needs to end with @test.com')
     }
 
