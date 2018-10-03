@@ -3,14 +3,6 @@ import { AuthService } from '../auth/auth.service'
 
 @Component({
   selector: 'app-home',
-  template: `
-    <div *ngIf="displayLogin">
-      <app-login></app-login>
-    </div>
-    <div *ngIf="!displayLogin">
-      <span class="mat-display-3">You get a lemon, you get a lemon, everybody gets lemons...</span>
-    </div>
-  `,
   styles: [
     `
       div[fxLayout] {
@@ -18,6 +10,14 @@ import { AuthService } from '../auth/auth.service'
       }
     `,
   ],
+  template: `
+    <div *ngIf="displayLogin">
+      <app-login></app-login>
+    </div>
+    <div *ngIf="!displayLogin">
+      <span class="mat-display-3">You get a lemon, you get a lemon, you get a lemon...</span>
+    </div>
+  `,
 })
 export class HomeComponent implements OnInit {
   private _displayLogin = true

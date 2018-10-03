@@ -20,7 +20,7 @@ export class UiService {
     title: string,
     content: string,
     okText = 'OK',
-    cancelText: string,
+    cancelText?: string,
     customConfig?: MatDialogConfig
   ): Observable<Boolean> {
     const dialogRef = this.dialog.open(

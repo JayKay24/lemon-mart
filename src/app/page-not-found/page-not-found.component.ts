@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core'
       This page doesn't exist. Go back to <a routerLink="/home">home</a>.
     </p>
   `,
-  styles: [],
 })
 export class PageNotFoundComponent implements OnInit {
   constructor() {}

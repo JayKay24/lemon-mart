@@ -1,11 +1,19 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { sign } from 'fake-jwt-sign'
-import { decode } from 'punycode'
+import { sign } from 'fake-jwt-sign' // For fake AuthProvider only
+import * as decode from 'jwt-decode'
 import { BehaviorSubject, Observable, of, throwError as observableThrowError } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
 import { transformError } from '../common/common'
+import { CacheService } from './cache.service'
 import { Role } from './role.enum'
+
+export interface IAuthService {
+  authStatus: BehaviorSubject<IAuthStatus>
+  login(email: string, password: string): Observable<IAuthStatus>
+  logout()
+  getToken(): string
+}
 
 export interface IAuthStatus {
   isAuthenticated: boolean
@@ -17,18 +25,23 @@ interface IServerAuthResponse {
   accessToken: string
 }
 
-const defaultAuthStatus = { isAuthenticated: false, userRole: Role.None, userId: null }
+export const defaultAuthStatus = {
+  isAuthenticated: false,
+  userRole: Role.None,
+  userId: null,
+}
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService extends CacheService implements IAuthService {
+  authStatus = new BehaviorSubject<IAuthStatus>(
+    this.getItem('authStatus') || defaultAuthStatus
+  )
   private readonly authProvider: (
     email: string,
     password: string
   ) => Observable<IServerAuthResponse>
-
-  authStatus = new BehaviorSubject<IAuthStatus>(defaultAuthStatus)
 
   private fakeAuthProvider(
     email: string,
@@ -61,6 +74,8 @@ export class AuthService {
   }
 
   constructor(private httpClient: HttpClient) {
+    super()
+    this.authStatus.subscribe(authStatus => this.setItem('authStatus', authStatus))
     // Fake login functions to simulate roles
     this.authProvider = this.fakeAuthProvider
   }
@@ -70,6 +85,7 @@ export class AuthService {
 
     const loginResponse = this.authProvider(email, password).pipe(
       map(value => {
+        this.setToken(value.accessToken)
         return decode(value.accessToken) as IAuthStatus
       }),
       catchError(transformError)
@@ -89,6 +105,23 @@ export class AuthService {
   }
 
   logout() {
+    this.clearToken()
     this.authStatus.next(defaultAuthStatus)
+  }
+
+  private setToken(jwt: string) {
+    this.setItem('jwt', jwt)
+  }
+
+  private getDecodedToken(): IAuthStatus {
+    return decode(this.getItem('jwt'))
+  }
+
+  getToken(): string {
+    return this.getItem('jwt') || ''
+  }
+
+  private clearToken() {
+    this.removeItem('jwt')
   }
 }
