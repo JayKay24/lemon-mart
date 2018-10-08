@@ -6,7 +6,10 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { SecurityContext } from '@angular/platform-browser/src/security/dom_sanitization_service'
 import { RouterTestingModule } from '@angular/router/testing'
 import { Observable, of, Subscription } from 'rxjs'
+import { AuthService } from '../auth/auth.service'
+import { AuthServiceFake } from '../auth/auth.service.fake'
 import { MaterialModule } from '../material.module'
+import { UiService } from './ui.service'
 
 const FAKE_SVGS = { lemon: '<svg><path id="lemon" name="lemon"></path></svg>' }
 
@@ -62,7 +65,10 @@ export class DomSanitizerFake {
   }
 }
 
-export const commonTestingProviders: any[] = []
+export const commonTestingProviders: any[] = [
+  { provide: AuthService, useClass: AuthServiceFake },
+  UiService,
+]
 export const commonTestingModules: any[] = [
   FormsModule,
   ReactiveFormsModule,
