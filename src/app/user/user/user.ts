@@ -55,7 +55,7 @@ export class User implements IUser {
     public phones = []
   ) {}
 
-  static buildUser(user: IUser) {
+  static BuildUser(user: IUser) {
     return new User(
       user.id,
       user.email,

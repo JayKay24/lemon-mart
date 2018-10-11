@@ -3,11 +3,11 @@ import { NgModule } from '@angular/core'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AppMaterialModule } from '../app-material.module'
+import { SharedComponentsModule } from '../shared-components.module'
 import { LogoutComponent } from './logout/logout.component'
 import { ProfileComponent } from './profile/profile.component'
 import { UserMaterialModule } from './user-material.module'
-import { UserRoutingModule } from './user-routing.module';
-import { ViewUserComponent } from './view-user/view-user.component'
+import { UserRoutingModule } from './user-routing.module'
 
 @NgModule({
   imports: [
@@ -18,7 +18,8 @@ import { ViewUserComponent } from './view-user/view-user.component'
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    SharedComponentsModule,
   ],
-  declarations: [ProfileComponent, LogoutComponent, ViewUserComponent],
+  declarations: [ProfileComponent, LogoutComponent],
 })
 export class UserModule {}
