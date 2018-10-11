@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   constructor(
     protected authService: AuthService,
     protected router: Router,
-    protected uiService: UiService
+    private uiService: UiService
   ) {
     this.authService.authStatus.subscribe(
       authStatus => (this.currentAuthStatus = authStatus)
@@ -56,23 +56,27 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
       }
 
       if (roleMatch) {
-        params = { redirectUrl: route.pathFromRoot.map(r => r.url.join('/')) }
+        params = { redirectUrl: route.pathFromRoot.map(r => r.url).join('/') }
       }
     }
+
     if (!this.currentAuthStatus.isAuthenticated || !roleMatch) {
       this.showAlert(this.currentAuthStatus.isAuthenticated, roleMatch)
+
       this.router.navigate(['login', params || {}])
       return false
     }
+
     return true
   }
-  private showAlert(isAuth: Boolean, roleMatch: Boolean) {
+
+  private showAlert(isAuth: boolean, roleMatch: boolean) {
     if (!isAuth) {
-      this.uiService.showToast('You must log in to continue.')
+      this.uiService.showToast('You must login to continue')
     }
 
     if (!roleMatch) {
-      this.uiService.showToast('You do not have the permissions to view this resource.')
+      this.uiService.showToast('You do not have the permissions to view this resource')
     }
   }
 }

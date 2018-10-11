@@ -43,6 +43,13 @@ export class AuthService extends CacheService implements IAuthService {
     password: string
   ) => Observable<IServerAuthResponse>
 
+  constructor(private httpClient: HttpClient) {
+    super()
+    this.authStatus.subscribe(authStatus => this.setItem('authStatus', authStatus))
+    // Fake login functions to simulate roles
+    this.authProvider = this.fakeAuthProvider
+  }
+
   private fakeAuthProvider(
     email: string,
     password: string
@@ -71,13 +78,6 @@ export class AuthService extends CacheService implements IAuthService {
     } as IServerAuthResponse
 
     return of(authResponse)
-  }
-
-  constructor(private httpClient: HttpClient) {
-    super()
-    this.authStatus.subscribe(authStatus => this.setItem('authStatus', authStatus))
-    // Fake login functions to simulate roles
-    this.authProvider = this.fakeAuthProvider
   }
 
   login(email: string, password: string): Observable<IAuthStatus> {

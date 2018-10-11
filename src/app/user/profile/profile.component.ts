@@ -15,7 +15,8 @@ import {
   USAPhoneNumberValidation,
   USAZipCodeValidation,
 } from '../../common/validation'
-import { IPhone, IUser, UserService } from '../user/user'
+import { IPhone, IUser } from '../user/user'
+import { UserService } from '../user/user.service'
 import { IUSState, PhoneType, USStateFilter } from './data'
 
 @Component({
